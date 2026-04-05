@@ -1,16 +1,14 @@
 #!/bin/bash
-set -e
 
-# 檢測是否通過 pipe 方式執行 (curl | bash)
-if [[ ! -t 0 ]] && [[ -z "$SELF_RUNNING" ]]; then
-    export SELF_RUNNING=1
-    tmpfile=$(mktemp)
-    cp "$0" "$tmpfile"
+# 檢測是否通過 pipe 執行
+if [[ ! -t 0 ]]; then
+    tmpfile=$(mktemp /tmp/vless-reality.XXXXXX.sh)
+    cat > "$tmpfile"
     chmod +x "$tmpfile"
-    exec bash "$tmpfile" "$@"
+    exec bash "$tmpfile"
 fi
 
-unset SELF_RUNNING
+set -e
 
 export LANG=en_US.UTF-8
 
