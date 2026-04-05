@@ -358,8 +358,7 @@ menu(){
         fi
         echo_blue "============================================"
         
-        printf "請選擇 [0-8]: "
-        read choice
+        read -p "請選擇 [0-8]: " choice
         
         case "$choice" in
             1) install ;;
@@ -371,11 +370,11 @@ menu(){
             7) systemctl status sing-box --no-pager | head -15 ;;
             8) uninstall ;;
             0) echo_green "再見！" && exit 0 ;;
-            *) echo_red "無效選擇，請重新輸入" && continue ;;
+            *) echo_red "無效選擇，請重新輸入" ;;
         esac
         
         echo ""
-        read -r
+        read -p "按 Enter 繼續..."
     done
 }
 
