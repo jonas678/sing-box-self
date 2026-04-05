@@ -1,6 +1,17 @@
 #!/bin/bash
 set -e
 
+# 檢測是否通過 pipe 方式執行 (curl | bash)
+if [[ ! -t 0 ]] && [[ -z "$SELF_RUNNING" ]]; then
+    export SELF_RUNNING=1
+    tmpfile=$(mktemp)
+    cp "$0" "$tmpfile"
+    chmod +x "$tmpfile"
+    exec bash "$tmpfile" "$@"
+fi
+
+unset SELF_RUNNING
+
 export LANG=en_US.UTF-8
 
 red='\033[0;31m'
