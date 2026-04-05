@@ -1,15 +1,5 @@
 #!/bin/bash
 
-# 檢測是否通過 pipe 執行
-if [[ ! -t 0 ]]; then
-    tmpfile=$(mktemp /tmp/vless-reality.XXXXXX.sh)
-    cat > "$tmpfile"
-    chmod +x "$tmpfile"
-    exec bash "$tmpfile"
-fi
-
-set -e
-
 export LANG=en_US.UTF-8
 
 red='\033[0;31m'
@@ -368,7 +358,8 @@ menu(){
         fi
         echo_blue "============================================"
         
-        read -p "請選擇 [0-8]: " choice
+        printf "請選擇 [0-8]: "
+        read choice
         
         case "$choice" in
             1) install ;;
@@ -380,11 +371,11 @@ menu(){
             7) systemctl status sing-box --no-pager | head -15 ;;
             8) uninstall ;;
             0) echo_green "再見！" && exit 0 ;;
-            *) echo_red "無效選擇，請重新輸入" ;;
+            *) echo_red "無效選擇，請重新輸入" && continue ;;
         esac
         
         echo ""
-        read -p "按 Enter 繼續..."
+        read -r
     done
 }
 
